@@ -35,7 +35,7 @@ namespace c__project_proposal
                 MessageBox.Show($"Welcome User");
                 this.Hide();
 
-                Form1 show = new Form1();
+                Calendar show = new Calendar();
                 show.Show();
             }
             else

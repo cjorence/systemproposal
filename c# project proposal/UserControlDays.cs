@@ -10,11 +10,20 @@ using System.Windows.Forms;
 
 namespace c__project_proposal
 {
-    public partial class Form1 : Form
+    public partial class UserControlDays : UserControl
     {
-        public Form1()
+        public UserControlDays()
         {
             InitializeComponent();
         }
+
+        private void UserControlDays_Load(object sender, EventArgs e)
+        {
+
+        }
+        public void days(int numday)
+        {
+            lblDays.Text = numday + "";
+        } 
     }
 }
