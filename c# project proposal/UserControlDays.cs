@@ -12,6 +12,7 @@ namespace c__project_proposal
 {
     public partial class UserControlDays : UserControl
     {
+        public static string static_day;
         public UserControlDays()
         {
             InitializeComponent();
@@ -24,6 +25,13 @@ namespace c__project_proposal
         public void days(int numday)
         {
             lblDays.Text = numday + "";
-        } 
+        }
+
+        private void UserControlDays_Click(object sender, EventArgs e)
+        {
+            static_day = lblDays.Text;
+            EventForm eventform = new EventForm ();
+            eventform.Show();
+        }
     }
 }

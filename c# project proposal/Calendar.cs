@@ -14,6 +14,8 @@ namespace c__project_proposal
     public partial class Calendar : Form
     {
         int month, year;
+
+        public static int static_month, static_year;
         public Calendar()
         {
             InitializeComponent();
@@ -83,6 +85,9 @@ namespace c__project_proposal
             String monthname = DateTimeFormatInfo.CurrentInfo.GetMonthName(month);
             lblDate.Text = monthname + " " + year;
 
+            static_month = month;
+            static_year = year;
+
             DateTime startofthemonth = new DateTime(year, month, 1);
 
             int days = DateTime.DaysInMonth(year, month);
@@ -116,6 +121,8 @@ namespace c__project_proposal
         {
             daycontainer.Controls.Clear();
             month--;
+            static_month = month;
+            static_year = year;
 
             String monthname = DateTimeFormatInfo.CurrentInfo.GetMonthName(month);
             lblDate.Text = monthname + " " + year;
@@ -143,6 +150,8 @@ namespace c__project_proposal
         {
             daycontainer.Controls.Clear();
             month++;
+            static_month = month;
+            static_year = year;
 
             String monthname = DateTimeFormatInfo.CurrentInfo.GetMonthName(month);
             lblDate.Text = monthname + " " + year;
