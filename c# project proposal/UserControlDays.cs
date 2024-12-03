@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,7 @@ namespace c__project_proposal
 {
     public partial class UserControlDays : UserControl
     {
+        String connString = "server=localhost;user id=root;pwd=M@xene17;database=appointment";
         public static string static_day;
         public UserControlDays()
         {
@@ -30,8 +32,41 @@ namespace c__project_proposal
         private void UserControlDays_Click(object sender, EventArgs e)
         {
             static_day = lblDays.Text;
+            //start timer when clicked
+            timer1.Start();
             EventForm eventform = new EventForm ();
             eventform.Show();
+        }
+
+        private void displayEventInBox() 
+        {
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connString);
+                conn.Open();
+                String sql = "SELECT * FROM Appointment where date = ?";
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = sql;
+                cmd.Parameters.AddWithValue("date", Calendar.static_year + "/" + Calendar.static_month + "/" + lblDays.Text);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    lbAppointment.Text = reader["appointment"].ToString();
+                }
+                //reader.DisposeAsync();
+                reader.Dispose();
+                cmd.Dispose();
+                conn.Close();
+            } catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        
+    private void timer1_Tick_1(object sender, EventArgs e) //timer for auto display if new event is added
+        {
+            displayEventInBox();    
         }
     }
 }

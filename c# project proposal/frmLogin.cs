@@ -32,11 +32,10 @@ namespace c__project_proposal
 
             if (account.ValidateCredentials(inputUsername, inputPassword))
             {
-                MessageBox.Show($"Welcome User");
                 this.Hide();
 
-                Calendar show = new Calendar();
-                show.Show();
+                Calendar calendar = new Calendar();
+                calendar.Show();
             }
             else
             {
@@ -45,6 +44,11 @@ namespace c__project_proposal
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void frmLogin_Load(object sender, EventArgs e)
         {
 
         }

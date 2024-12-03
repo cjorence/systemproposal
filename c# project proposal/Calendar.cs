@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,57 +25,9 @@ namespace c__project_proposal
         private void Calendar_Load(object sender, EventArgs e)
         {
             displayDays();
+            LoadRecentDates();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel30_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel31_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel32_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel33_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel29_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel35_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel34_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void displayDays()
         {
@@ -107,12 +60,14 @@ namespace c__project_proposal
             }
         }
 
-        private void flowLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
-        {
 
+        private void buttonEditSched_Click(object sender, EventArgs e)
+        {
+            frmEditSched frmEdit = new frmEditSched();
+            frmEdit.Show();
         }
 
-        private void panel6_Paint(object sender, PaintEventArgs e)
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
@@ -121,6 +76,13 @@ namespace c__project_proposal
         {
             daycontainer.Controls.Clear();
             month--;
+
+            if (month < 1) // Wrap around to December and decrement year
+            {
+                month = 12;
+                year--;
+            }
+
             static_month = month;
             static_year = year;
 
@@ -149,7 +111,13 @@ namespace c__project_proposal
         private void btnNext_Click_1(object sender, EventArgs e)
         {
             daycontainer.Controls.Clear();
+
             month++;
+            if (month > 12) // Wrap around to January and increment year
+            {
+                month = 1;
+                year++;
+            }
             static_month = month;
             static_year = year;
 
@@ -171,9 +139,33 @@ namespace c__project_proposal
             {
                 UserControlDays ucdays = new UserControlDays();
                 ucdays.days(i);
-                daycontainer.Controls.Add(ucdays);
+                daycontainer.Controls.Add(ucdays); 
             }
         }
+        private void LoadRecentDates() //for listBox
+        {
+            listBoxRecentDates.Items.Clear(); // Clear previous items
+            string connString = "server=localhost;user id=root;pwd=M@xene17;database=appointment";
+
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                conn.Open();
+                string query = "SELECT date, name, appointmenttype FROM appointment WHERE date >= CURDATE() ORDER BY date ASC";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string date = Convert.ToDateTime(reader["date"]).ToString("yyyy-MM-dd");
+                        string name = reader["name"].ToString();
+                        string appointmentType = reader["appointmenttype"].ToString(); 
+                        listBoxRecentDates.Items.Add($"{date}  | {appointmentType} - {name}");
+                    }
+                }
+            }
+        }
+
 
     }
 }
