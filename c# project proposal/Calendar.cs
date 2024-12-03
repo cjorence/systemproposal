@@ -108,6 +108,11 @@ namespace c__project_proposal
             }
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void btnNext_Click_1(object sender, EventArgs e)
         {
             daycontainer.Controls.Clear();

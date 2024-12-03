@@ -63,9 +63,29 @@ namespace c__project_proposal.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Add_a_heading {
+            get {
+                object obj = ResourceManager.GetObject("Add a heading", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap deleteIcon15px {
             get {
                 object obj = ResourceManager.GetObject("deleteIcon15px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DIS {
+            get {
+                object obj = ResourceManager.GetObject("DIS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -96,6 +116,16 @@ namespace c__project_proposal.Properties {
         internal static System.Drawing.Bitmap editIcon15px {
             get {
                 object obj = ResourceManager.GetObject("editIcon15px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap IDIT {
+            get {
+                object obj = ResourceManager.GetObject("IDIT", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -136,6 +166,16 @@ namespace c__project_proposal.Properties {
         internal static System.Drawing.Bitmap userimg25pxx {
             get {
                 object obj = ResourceManager.GetObject("userimg25pxx", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Your_paragraph_text {
+            get {
+                object obj = ResourceManager.GetObject("Your paragraph text", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

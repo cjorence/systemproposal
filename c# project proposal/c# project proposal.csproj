@@ -213,5 +213,17 @@
   <ItemGroup>
     <None Include="Resources\userimg25pxx.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Your paragraph text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add a heading.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DIS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IDIT.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
