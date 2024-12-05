@@ -113,6 +113,73 @@ namespace c__project_proposal
 
         }
 
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void buttonRstSched_Click(object sender, EventArgs e)
+        {
+            // Define the connection string
+            string connString = "server=localhost;user id=root;pwd=admin;database=appointment";
+
+            // Confirmation message before deletion
+            DialogResult result = MessageBox.Show(
+                "Are you sure you want to delete all data? This action cannot be undone.",
+                "Confirmation",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                {
+                    try
+                    {
+                        conn.Open();
+
+                        // Disable safe update mode for this session
+                        string disableSafeUpdate = "SET SQL_SAFE_UPDATES = 0;";
+                        MySqlCommand disableCmd = new MySqlCommand(disableSafeUpdate, conn);
+                        disableCmd.ExecuteNonQuery();
+
+                        // Delete all records from the database
+                        string deleteQuery = "DELETE FROM appointment";
+                        MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, conn);
+                        int rowsAffected = deleteCmd.ExecuteNonQuery();
+
+                        // Notify user of success and rows deleted
+                        MessageBox.Show(
+                            rowsAffected + " record(s) deleted successfully.",
+                            "Success",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+
+                        // Re-enable safe update mode (optional, to restore original state)
+                        string enableSafeUpdate = "SET SQL_SAFE_UPDATES = 1;";
+                        MySqlCommand enableCmd = new MySqlCommand(enableSafeUpdate, conn);
+                        enableCmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Notify user of any errors
+                        MessageBox.Show(
+                            "An error occurred while deleting records: " + ex.Message,
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                        return;
+                    }
+                }
+
+                // Clear the listbox
+                listBoxRecentDates.Items.Clear();
+            }
+        }
+
         private void btnNext_Click_1(object sender, EventArgs e)
         {
             daycontainer.Controls.Clear();
@@ -150,7 +217,7 @@ namespace c__project_proposal
         private void LoadRecentDates() //for listBox
         {
             listBoxRecentDates.Items.Clear(); // Clear previous items
-            string connString = "server=localhost;user id=root;pwd=M@xene17;database=appointment";
+            string connString = "server=localhost;user id=root;pwd=admin;database=appointment";
 
             using (MySqlConnection conn = new MySqlConnection(connString))
             {
@@ -165,7 +232,9 @@ namespace c__project_proposal
                         string date = Convert.ToDateTime(reader["date"]).ToString("yyyy-MM-dd");
                         string name = reader["name"].ToString();
                         string appointmentType = reader["appointmenttype"].ToString(); 
-                        listBoxRecentDates.Items.Add($"{date}  | {appointmentType} - {name}");
+                        listBoxRecentDates.Items.Add($"{appointmentType}  ");
+                        listBoxRecentDates.Items.Add($"{date} - {name}");
+                        listBoxRecentDates.Items.Add(""); 
                     }
                 }
             }

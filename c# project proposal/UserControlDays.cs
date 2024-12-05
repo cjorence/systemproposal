@@ -13,7 +13,7 @@ namespace c__project_proposal
 {
     public partial class UserControlDays : UserControl
     {
-        String connString = "server=localhost;user id=root;pwd=M@xene17;database=appointment";
+        String connString = "server=localhost;user id=root;pwd=admin;database=appointment";
         public static string static_day;
         public UserControlDays()
         {
@@ -22,6 +22,7 @@ namespace c__project_proposal
 
         private void UserControlDays_Load(object sender, EventArgs e)
         {
+            //displayEventInBox();
 
         }
         public void days(int numday)
@@ -44,7 +45,7 @@ namespace c__project_proposal
             {
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
-                String sql = "SELECT * FROM Appointment where date = ?";
+                String sql = "SELECT * FROM appointment where date = ?";
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
                 cmd.Parameters.AddWithValue("date", Calendar.static_year + "/" + Calendar.static_month + "/" + lblDays.Text);

@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Xml.Linq;
+using System.Data.SqlClient;
 
 namespace c__project_proposal
 {
     public partial class frmEditSched : Form
     {
-        String connString = "server=localhost;user id=root;pwd=M@xene17;database=appointment";
+        SqlConnection con = new SqlConnection(@"");
+        String connString = "server=localhost;user id=root;pwd=admin;database=appointment";
 
         public frmEditSched()
         {
@@ -28,12 +30,7 @@ namespace c__project_proposal
            
         }
         
-        //private void LoadData() //method
-        //{
-        //    // Replace with your actual MySQL connection details
-            
-            
-        //}
+    
 
         private void frmEditSched_Load(object sender, EventArgs e)
         {
@@ -59,10 +56,9 @@ namespace c__project_proposal
                         {
                             dataTable.Rows[i]["Number Key"] = i + 1;
                         }
+                       
 
-                        // Rearrange columns to match desired DataGridView structure
                         DataTable formattedTable = dataTable.DefaultView.ToTable(false, "Number Key", "name", "date", "time", "appointmenttype");
-
                         // Bind to DataGridView
                         dataGridViewAllSched.DataSource = formattedTable;
                     }
@@ -112,41 +108,38 @@ namespace c__project_proposal
             }
         }
 
-        private void buttonSaveChanges_Click(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
-            string schedTime = $"{cbHour.Text}:{cbMinute.Text} {cbTimePeriod.Text}";
-            // Validate input
-            if (string.IsNullOrWhiteSpace(textBoxName.Text) ||
-                string.IsNullOrWhiteSpace(dateTimePickerDate.Text) ||
-                string.IsNullOrWhiteSpace(schedTime) ||
-                comboBoxAppointmentType.SelectedItem == null)
-            {
-                MessageBox.Show("Please complete all fields before saving.");
-                return;
-            }
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            {
-                conn.Open();
-                string query = @"UPDATE appointment 
-                                 SET name = @name, date = @date, time = @time, appointment = @appointment 
-                                 WHERE id = @id";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@name", textBoxName.Text);
-                cmd.Parameters.AddWithValue("@date", dateTimePickerDate.Text);
-                cmd.Parameters.AddWithValue("@time", schedTime);
-                cmd.Parameters.AddWithValue("@appointment", comboBoxAppointmentType.SelectedItem.ToString());
-                //cmd.Parameters.AddWithValue("@id", scheduleId);
-
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Schedule updated successfully!");
-                this.Close(); // Close the form after saving
-            }
+            
         }
 
-        private void cbKeyTBEdited_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
+
+        //private void cbKeyTBEdited_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (cbKeyTBEdited.SelectedValue == null)
+        //    {
+        //        MessageBox.Show("Please select a record to edit.");
+        //        return;
+        //    }
+
+        //    int selectedKey = Convert.ToInt32(cbKeyTBEdited.SelectedValue);
+
+        //    // Filter the DataTable to find the record with the matching "Number Key"
+        //    DataRow[] selectedRows = ((DataTable)cbKeyTBEdited.DataSource).Select($"[Number Key] = {selectedKey}");
+        //    if (selectedRows.Length > 0)
+        //    {
+        //        DataRow selectedRow = selectedRows[0];
+        //        textBoxName.Text = selectedRow["name"].ToString();
+        //        dateTimePickerDate.Value = Convert.ToDateTime(selectedRow["date"]);
+        //        string[] timeParts = selectedRow["time"].ToString().Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        //        cbHour.Text = timeParts[0];
+        //        cbMinute.Text = timeParts[1];
+        //        cbTimePeriod.Text = timeParts[2];
+        //        comboBoxAppointmentType.SelectedItem = selectedRow["appointmenttype"].ToString();
+
+
+        //    }
+        //}
     }
 }
