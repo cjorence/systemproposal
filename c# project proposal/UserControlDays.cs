@@ -22,7 +22,7 @@ namespace c__project_proposal
 
         private void UserControlDays_Load(object sender, EventArgs e)
         {
-            //displayEventInBox();
+            displayEventInBox();
 
         }
         public void days(int numday)
@@ -52,7 +52,7 @@ namespace c__project_proposal
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    lbAppointment.Text = reader["appointment"].ToString();
+                    lbAppointment.Text = reader["appointmenttype"].ToString();
                 }
                 //reader.DisposeAsync();
                 reader.Dispose();
@@ -68,6 +68,16 @@ namespace c__project_proposal
     private void timer1_Tick_1(object sender, EventArgs e) //timer for auto display if new event is added
         {
             displayEventInBox();    
+        }
+
+        private void lbAppointment_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblDays_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

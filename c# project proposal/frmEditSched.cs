@@ -16,7 +16,7 @@ namespace c__project_proposal
 {
     public partial class frmEditSched : Form
     {
-        SqlConnection con = new SqlConnection(@"");
+        
         String connString = "server=localhost;user id=root;pwd=admin;database=appointment";
 
         public frmEditSched()
@@ -27,9 +27,15 @@ namespace c__project_proposal
 
         private void dataGridViewAllSched_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-           
+            if (e.RowIndex >= 0) // Make sure a row is selected
+            {
+                // Get the selected row
+                DataGridViewRow row = dataGridViewAllSched.Rows[e.RowIndex];
+
+                // Get the name (or another unique identifier) from the row and display it in textBoxName
+                textBoxName.Text = row.Cells["name"].Value.ToString();
+            }
         }
-        
     
 
         private void frmEditSched_Load(object sender, EventArgs e)
@@ -56,7 +62,6 @@ namespace c__project_proposal
                         {
                             dataTable.Rows[i]["Number Key"] = i + 1;
                         }
-                       
 
                         DataTable formattedTable = dataTable.DefaultView.ToTable(false, "Number Key", "name", "date", "time", "appointmenttype");
                         // Bind to DataGridView
@@ -69,14 +74,15 @@ namespace c__project_proposal
                 MessageBox.Show("Error: " + ex.Message);
             }
 
-            for (int hr = 01; hr <= 12; hr++)
+            for (int hr = 1; hr <= 12; hr++)
             {
                 cbHour.Items.Add(hr);
             }
-            for (int min = 01; min <= 59; min++)
+            for (int min = 1; min <= 59; min++)
             {
                 cbMinute.Items.Add(min);
             }
+
             string[] time = { "AM", "PM" };
             for (int i = 0; i < time.Length; i++)
             {
@@ -108,38 +114,62 @@ namespace c__project_proposal
             }
         }
 
+
+
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            
+            string nameToDelete = textBoxName.Text; // Get the name from the textbox
+
+            if (string.IsNullOrEmpty(nameToDelete))
+            {
+                MessageBox.Show("Please select a record to delete.");
+                return;
+            }
+
+            // Confirmation before deleting
+            DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the record for {nameToDelete}?", "Confirm Delete", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                // SQL DELETE query to remove the record from the database
+                string deleteQuery = "DELETE FROM appointment WHERE name = @name";
+
+                try
+                {
+                    using (MySqlConnection connection = new MySqlConnection(connString))
+                    {
+                        connection.Open();
+
+                        using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
+                        {
+                            // Use parameters to avoid SQL injection
+                            command.Parameters.AddWithValue("@name", nameToDelete);
+
+                            // Execute the DELETE command
+                            int rowsAffected = command.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                MessageBox.Show("Record deleted successfully.");
+                            }
+                            else
+                            {
+                                MessageBox.Show("No record found with the provided name.");
+                            }
+                        }
+                    }
+
+                    // Reload the data in the DataGridView
+                    frmEditSched_Load(sender, e); // This reloads the DataGridView after deletion
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+
         }
 
 
-
-        //private void cbKeyTBEdited_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    if (cbKeyTBEdited.SelectedValue == null)
-        //    {
-        //        MessageBox.Show("Please select a record to edit.");
-        //        return;
-        //    }
-
-        //    int selectedKey = Convert.ToInt32(cbKeyTBEdited.SelectedValue);
-
-        //    // Filter the DataTable to find the record with the matching "Number Key"
-        //    DataRow[] selectedRows = ((DataTable)cbKeyTBEdited.DataSource).Select($"[Number Key] = {selectedKey}");
-        //    if (selectedRows.Length > 0)
-        //    {
-        //        DataRow selectedRow = selectedRows[0];
-        //        textBoxName.Text = selectedRow["name"].ToString();
-        //        dateTimePickerDate.Value = Convert.ToDateTime(selectedRow["date"]);
-        //        string[] timeParts = selectedRow["time"].ToString().Split(new[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        //        cbHour.Text = timeParts[0];
-        //        cbMinute.Text = timeParts[1];
-        //        cbTimePeriod.Text = timeParts[2];
-        //        comboBoxAppointmentType.SelectedItem = selectedRow["appointmenttype"].ToString();
-
-
-        //    }
-        //}
     }
 }

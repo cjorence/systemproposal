@@ -29,15 +29,36 @@ namespace c__project_proposal
             cbTimePeriod.Items.AddRange(timePeriods);
 
             string[] typeOfAppointment = {
-                "Routine or Preventive Appointment", "Annual Physical Exam",
-                "Vaccination Appointment", "Specialist Appointment",
-                "Follow-Up Appointment", "Acute Care Appointment",
-                "Diagnostic Appointment", "Therapy Appointment",
-                "Dental Appointment", "Pediatric Appointment",
-                "Telemedicine Appointment", "Emergency Car",
-                "Surgical Consultation", "Rehabilitation Appointment",
-                "Fertility and Reproductive Health Appointment",
-                "Vision and Eye Care Appointment"
+                "General check-up",
+                "Physical examination (annual physical)",
+                "Pediatric consultation",
+                "Immunization/vaccination",
+                "Prenatal check-up",
+                "Postnatal check-up",
+                "Blood pressure monitoring",
+                "Diabetes management consultation",
+                "Cholesterol check-up",
+                "Weight management consultation",
+                "Allergy testing or consultation",
+                "Eye examination",
+                "Ear, nose, and throat (ENT) consultation",
+                "Dental check-up",
+                "Skin consultation (dermatology)",
+                "Cardiologist consultation (heart health)",
+                "Gastroenterology consultation (digestive health)",
+                "Orthopedic consultation (bones and joints)",
+                "Physiotherapy session",
+                "Mental health counseling (psychologist/psychiatrist)",
+                "Gynecological consultation (e.g., Pap smear)",
+                "Family planning consultation",
+                "Blood work or laboratory tests",
+                "Ultrasound or imaging appointment",
+                "Vaccine booster shots",
+                "Follow-up appointment for chronic conditions",
+                "Flu or cold treatment",
+                "COVID-19 testing or follow-up",
+                "Minor wound care or dressing change",
+                "Prescription refill or medication review"
             };
             cbAppointment.Items.AddRange(typeOfAppointment);
         }
@@ -55,6 +76,21 @@ namespace c__project_proposal
                 MessageBox.Show("Please fill out all fields before saving.");
                 return;
             }
+
+            // Extract hour and time period (AM/PM)
+            int hour = int.Parse(cbHour.Text);
+            string timePeriod = cbTimePeriod.Text;
+
+            // Check if the selected time is within the allowed range: 8 AM to 11:59 AM or 12 PM to 5 PM
+            //bool isValidTime = (timePeriod == "AM" && hour >= 8 && hour <= 11) ||
+            //       (timePeriod == "PM" && hour >= 12 && hour <= 5);
+
+            //if (!isValidTime)
+            //{
+            //    MessageBox.Show("Appointments can only be scheduled between 8:00 AM - 11:59 AM and 12:00 PM - 5:00 PM.");
+            //    return;
+            //}
+
 
             MySqlConnection conn = new MySqlConnection(connString);
             string sql = "INSERT INTO appointment(name, date, time, appointmenttype) VALUES (?, ?, ?, ?)";
@@ -80,7 +116,6 @@ namespace c__project_proposal
             catch (MySqlException ex)
             {
                 // Show the error message once and prevent infinite looping
-                //MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show($"An error occurred: {ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally

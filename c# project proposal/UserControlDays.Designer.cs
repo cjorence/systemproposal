@@ -44,6 +44,7 @@
             this.lblDays.Size = new System.Drawing.Size(23, 16);
             this.lblDays.TabIndex = 0;
             this.lblDays.Text = "00";
+            this.lblDays.Click += new System.EventHandler(this.lblDays_Click);
             // 
             // lbAppointment
             // 
@@ -54,6 +55,7 @@
             this.lbAppointment.Size = new System.Drawing.Size(10, 13);
             this.lbAppointment.TabIndex = 1;
             this.lbAppointment.Text = " ";
+            this.lbAppointment.Click += new System.EventHandler(this.lbAppointment_Click);
             // 
             // timer1
             // 
