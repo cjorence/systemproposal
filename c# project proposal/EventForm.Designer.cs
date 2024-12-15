@@ -40,8 +40,9 @@
             this.cbTimePeriod = new System.Windows.Forms.ComboBox();
             this.cbAppointment = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel1.SuspendLayout();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtDate
@@ -75,13 +76,15 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(203, 285);
+            this.btnSave.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnSave.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnSave.Location = new System.Drawing.Point(116, 295);
             this.btnSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(54, 23);
+            this.btnSave.Size = new System.Drawing.Size(73, 35);
             this.btnSave.TabIndex = 4;
             this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // label3
@@ -118,7 +121,8 @@
             this.cbHour.Name = "cbHour";
             this.cbHour.Size = new System.Drawing.Size(67, 21);
             this.cbHour.TabIndex = 9;
-            this.cbHour.Text = "-Hour-";
+            this.cbHour.Text = "-HOUR-";
+            this.cbHour.SelectedIndexChanged += new System.EventHandler(this.cbHour_SelectedIndexChanged);
             // 
             // cbMinute
             // 
@@ -127,7 +131,7 @@
             this.cbMinute.Name = "cbMinute";
             this.cbMinute.Size = new System.Drawing.Size(77, 21);
             this.cbMinute.TabIndex = 10;
-            this.cbMinute.Text = "-Minute-";
+            this.cbMinute.Text = "-MINUTE-";
             // 
             // cbTimePeriod
             // 
@@ -145,33 +149,36 @@
             this.cbAppointment.Name = "cbAppointment";
             this.cbAppointment.Size = new System.Drawing.Size(225, 21);
             this.cbAppointment.TabIndex = 12;
+            this.cbAppointment.Text = "-Type of Healthcare Appointment -";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label5.Location = new System.Drawing.Point(29, 26);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Font = new System.Drawing.Font("Microsoft YaHei UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label5.Location = new System.Drawing.Point(69, 34);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(88, 13);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "Add Appointment";
+            this.label5.Size = new System.Drawing.Size(164, 19);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "ADD APPOINTMENT";
             // 
-            // panel1
+            // groupBox1
             // 
-            this.panel1.BackColor = System.Drawing.Color.MidnightBlue;
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Location = new System.Drawing.Point(0, -6);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(295, 54);
-            this.panel1.TabIndex = 13;
+            this.groupBox1.BackColor = System.Drawing.Color.SteelBlue;
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Location = new System.Drawing.Point(-7, -16);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(302, 66);
+            this.groupBox1.TabIndex = 14;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "groupBox1";
             // 
             // EventForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(287, 341);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cbAppointment);
             this.Controls.Add(this.cbTimePeriod);
             this.Controls.Add(this.cbMinute);
@@ -188,8 +195,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EventForm";
             this.Load += new System.EventHandler(this.EventForm_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -209,6 +216,7 @@
         private System.Windows.Forms.ComboBox cbTimePeriod;
         private System.Windows.Forms.ComboBox cbAppointment;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

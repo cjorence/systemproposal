@@ -49,12 +49,13 @@
             // lbAppointment
             // 
             this.lbAppointment.AutoSize = true;
+            this.lbAppointment.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lbAppointment.Location = new System.Drawing.Point(3, 43);
             this.lbAppointment.Name = "lbAppointment";
             this.lbAppointment.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lbAppointment.Size = new System.Drawing.Size(10, 13);
+            this.lbAppointment.Size = new System.Drawing.Size(13, 13);
             this.lbAppointment.TabIndex = 1;
-            this.lbAppointment.Text = " ";
+            this.lbAppointment.Text = "  ";
             this.lbAppointment.Click += new System.EventHandler(this.lbAppointment_Click);
             // 
             // timer1
@@ -65,7 +66,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.Controls.Add(this.lbAppointment);
             this.Controls.Add(this.lblDays);
             this.Margin = new System.Windows.Forms.Padding(2);

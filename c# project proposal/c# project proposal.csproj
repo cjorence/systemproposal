@@ -111,6 +111,12 @@
     <Compile Include="EventForm.Designer.cs">
       <DependentUpon>EventForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSearchResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSearchResults.Designer.cs">
+      <DependentUpon>frmSearchResults.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmEditSched.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +155,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EventForm.resx">
       <DependentUpon>EventForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSearchResults.resx">
+      <DependentUpon>frmSearchResults.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmEditSched.resx">
       <DependentUpon>frmEditSched.cs</DependentUpon>
@@ -239,6 +248,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\output-onlinepngtools %283%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\298 x 298 - PNG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\150 x 150 - PNG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editIcon %283%29 %281%29.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editIcon %283%29.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\resetIcon %282%29.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editicon40x40.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh-page-arrow-button_icon-icons.com_53909 %281%29.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh-page-arrow-button_icon-icons.com_53909 %282%29.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh-page-35.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon %281%29.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

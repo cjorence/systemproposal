@@ -22,6 +22,7 @@ namespace c__project_proposal
         public frmEditSched()
         {
             InitializeComponent();
+            this.FormClosing += new FormClosingEventHandler(frmEditSched_FormClosing);
 
         }
 
@@ -54,16 +55,7 @@ namespace c__project_proposal
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable);
 
-                        // Add a column for the number key
-                        dataTable.Columns.Add("Number Key", typeof(int));
-
-                        // Populate the number key column
-                        for (int i = 0; i < dataTable.Rows.Count; i++)
-                        {
-                            dataTable.Rows[i]["Number Key"] = i + 1;
-                        }
-
-                        DataTable formattedTable = dataTable.DefaultView.ToTable(false, "Number Key", "name", "date", "time", "appointmenttype");
+                        DataTable formattedTable = dataTable.DefaultView.ToTable(false, "Name", "Date", "Time", "Appointment type");
                         // Bind to DataGridView
                         dataGridViewAllSched.DataSource = formattedTable;
                     }
@@ -161,6 +153,8 @@ namespace c__project_proposal
 
                     // Reload the data in the DataGridView
                     frmEditSched_Load(sender, e); // This reloads the DataGridView after deletion
+                    
+
                 }
                 catch (Exception ex)
                 {
@@ -170,6 +164,93 @@ namespace c__project_proposal
 
         }
 
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewAllSched.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a record to update.");
+                return;
+            }
 
+            // Get the selected row from the DataGridView
+            DataGridViewRow selectedRow = dataGridViewAllSched.SelectedRows[0];
+
+
+
+            // Retrieve the values from the DataGridView row
+            string currentName = selectedRow.Cells["name"].Value.ToString();
+            string updatedName = textBoxName.Text;
+            string updatedDate = dateTimePickerDate.Value.ToString("yyyy-MM-dd");
+            string updatedTime = $"{cbHour.Text}:{cbMinute.Text} {cbTimePeriod.Text}";
+            string updatedAppointmentType = comboBoxAppointmentType.SelectedItem?.ToString();
+
+            if (string.IsNullOrEmpty(updatedName) || string.IsNullOrEmpty(updatedTime) || string.IsNullOrEmpty(updatedAppointmentType))
+            {
+                MessageBox.Show("Please fill out all fields before updating.");
+                return;
+            }
+
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to update this record?", "Confirm Update", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                string updateQuery = "UPDATE appointment SET name = @updatedName, date = @updatedDate, time = @updatedTime, appointmenttype = @updatedAppointmentType WHERE name = @currentName";
+
+                try
+                {
+                    using (MySqlConnection connection = new MySqlConnection(connString))
+                    {
+                        connection.Open();
+
+                        using (MySqlCommand command = new MySqlCommand(updateQuery, connection))
+                        {
+                       
+                            command.Parameters.AddWithValue("@updatedName", updatedName);
+                            command.Parameters.AddWithValue("@updatedDate", updatedDate);
+                            command.Parameters.AddWithValue("@updatedTime", updatedTime);
+                            command.Parameters.AddWithValue("@updatedAppointmentType", updatedAppointmentType);
+                            command.Parameters.AddWithValue("@currentName", currentName);
+
+                            // Execute the update command and check how many rows were affected
+                            int rowsAffected = command.ExecuteNonQuery();
+                            if (rowsAffected > 0)
+                            {
+                                MessageBox.Show("Record updated successfully.");
+
+                                frmEditSched_Load(sender, e); // Refresh the DataGridView and reset the form fields
+
+                                // Optionally, clear the input fields
+                                textBoxName.Clear();
+                                dateTimePickerDate.Value = DateTime.Now;
+                                cbHour.SelectedIndex = -1;
+                                cbMinute.SelectedIndex = -1;
+                                cbTimePeriod.SelectedIndex = -1;
+                                comboBoxAppointmentType.SelectedIndex = -1;
+                            }
+                            else
+                            {
+                                MessageBox.Show("No records were updated. Please try again.");
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+
+        }
+        private void frmEditSched_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Calendar dashboard = new Calendar();
+                dashboard.DisplayCalendar();
+            }
+            else
+            {
+                e.Cancel = true; // Prevent form closure
+            }
+        }
     }
 }

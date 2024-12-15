@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.dataGridViewAllSched = new System.Windows.Forms.DataGridView();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.dataGridViewAllSched = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -42,17 +43,30 @@
             this.comboBoxAppointmentType = new System.Windows.Forms.ComboBox();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAllSched)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // dataGridViewAllSched
+            // 
+            this.dataGridViewAllSched.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewAllSched.Location = new System.Drawing.Point(403, 2);
+            this.dataGridViewAllSched.Name = "dataGridViewAllSched";
+            this.dataGridViewAllSched.Size = new System.Drawing.Size(416, 326);
+            this.dataGridViewAllSched.TabIndex = 6;
+            this.dataGridViewAllSched.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewAllSched_CellContentClick);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 49);
+            this.label3.Font = new System.Drawing.Font("Microsoft YaHei UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label3.Location = new System.Drawing.Point(58, 41);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.Size = new System.Drawing.Size(258, 19);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Modify details";
+            this.label3.Text = "MODIFY APPOINTMENT DETAILS";
             // 
             // label4
             // 
@@ -62,15 +76,6 @@
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 4;
             this.label4.Text = "Name";
-            // 
-            // dataGridViewAllSched
-            // 
-            this.dataGridViewAllSched.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewAllSched.Location = new System.Drawing.Point(403, 49);
-            this.dataGridViewAllSched.Name = "dataGridViewAllSched";
-            this.dataGridViewAllSched.Size = new System.Drawing.Size(416, 288);
-            this.dataGridViewAllSched.TabIndex = 6;
-            this.dataGridViewAllSched.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewAllSched_CellContentClick);
             // 
             // label5
             // 
@@ -93,7 +98,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(17, 199);
+            this.label7.Location = new System.Drawing.Point(17, 195);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(66, 13);
             this.label7.TabIndex = 9;
@@ -101,14 +106,14 @@
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(111, 86);
+            this.textBoxName.Location = new System.Drawing.Point(99, 86);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(272, 20);
             this.textBoxName.TabIndex = 10;
             // 
             // dateTimePickerDate
             // 
-            this.dateTimePickerDate.Location = new System.Drawing.Point(111, 122);
+            this.dateTimePickerDate.Location = new System.Drawing.Point(99, 122);
             this.dateTimePickerDate.Name = "dateTimePickerDate";
             this.dateTimePickerDate.Size = new System.Drawing.Size(272, 20);
             this.dateTimePickerDate.TabIndex = 11;
@@ -116,61 +121,82 @@
             // cbHour
             // 
             this.cbHour.FormattingEnabled = true;
-            this.cbHour.Location = new System.Drawing.Point(111, 165);
+            this.cbHour.Location = new System.Drawing.Point(99, 157);
             this.cbHour.Name = "cbHour";
             this.cbHour.Size = new System.Drawing.Size(93, 21);
             this.cbHour.TabIndex = 12;
+            this.cbHour.Text = "-HOUR-";
             // 
             // cbMinute
             // 
             this.cbMinute.FormattingEnabled = true;
-            this.cbMinute.Location = new System.Drawing.Point(225, 165);
+            this.cbMinute.Location = new System.Drawing.Point(213, 157);
             this.cbMinute.Name = "cbMinute";
             this.cbMinute.Size = new System.Drawing.Size(78, 21);
             this.cbMinute.TabIndex = 13;
+            this.cbMinute.Text = "-MINUTE-";
             // 
             // cbTimePeriod
             // 
             this.cbTimePeriod.FormattingEnabled = true;
-            this.cbTimePeriod.Location = new System.Drawing.Point(314, 162);
+            this.cbTimePeriod.Location = new System.Drawing.Point(302, 157);
             this.cbTimePeriod.Name = "cbTimePeriod";
             this.cbTimePeriod.Size = new System.Drawing.Size(69, 21);
             this.cbTimePeriod.TabIndex = 14;
+            this.cbTimePeriod.Text = "-AM/PM-";
             // 
             // comboBoxAppointmentType
             // 
             this.comboBoxAppointmentType.FormattingEnabled = true;
-            this.comboBoxAppointmentType.Location = new System.Drawing.Point(111, 199);
+            this.comboBoxAppointmentType.Location = new System.Drawing.Point(99, 195);
             this.comboBoxAppointmentType.Name = "comboBoxAppointmentType";
             this.comboBoxAppointmentType.Size = new System.Drawing.Size(272, 21);
             this.comboBoxAppointmentType.TabIndex = 15;
+            this.comboBoxAppointmentType.Text = "-Type of Healthcare Appointment-";
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(111, 271);
+            this.btnUpdate.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnUpdate.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnUpdate.Location = new System.Drawing.Point(81, 271);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.Size = new System.Drawing.Size(90, 34);
             this.btnUpdate.TabIndex = 18;
             this.btnUpdate.Text = "Update";
-            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(261, 271);
+            this.btnDelete.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnDelete.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnDelete.Location = new System.Drawing.Point(243, 271);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.Size = new System.Drawing.Size(86, 33);
             this.btnDelete.TabIndex = 19;
             this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.Color.SteelBlue;
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Location = new System.Drawing.Point(1, -21);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(403, 73);
+            this.groupBox1.TabIndex = 20;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "groupBox1";
             // 
             // frmEditSched
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(831, 379);
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ClientSize = new System.Drawing.Size(823, 330);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.comboBoxAppointmentType);
@@ -184,20 +210,22 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.dataGridViewAllSched);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
             this.Name = "frmEditSched";
             this.Text = "Edit form";
             this.Load += new System.EventHandler(this.frmEditSched_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAllSched)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
+        private System.Windows.Forms.DataGridView dataGridViewAllSched;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridView dataGridViewAllSched;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
@@ -209,5 +237,6 @@
         private System.Windows.Forms.ComboBox comboBoxAppointmentType;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

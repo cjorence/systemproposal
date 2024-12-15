@@ -15,8 +15,8 @@ namespace c__project_proposal
     public partial class Calendar : Form
     {
         int month, year;
-
         public static int static_month, static_year;
+        string connString = "server=localhost;user id=root;pwd=admin;database=appointment";
         public Calendar()
         {
             InitializeComponent();
@@ -25,7 +25,7 @@ namespace c__project_proposal
         private void Calendar_Load(object sender, EventArgs e)
         {
             displayDays();
-            LoadRecentDates();
+            LoadSchedPanel(); 
         }
 
 
@@ -60,8 +60,19 @@ namespace c__project_proposal
             }
         }
 
+        public void DisplayCalendar()
+        {
+            displayDays(); // Call the private method internally
+            LoadSchedPanel();
+        }
+
 
         private void buttonEditSched_Click(object sender, EventArgs e)
+        {
+            frmEditSched frmEdit = new frmEditSched();
+            frmEdit.Show();
+        }
+        private void btnDeleteSched_Click(object sender, EventArgs e)
         {
             frmEditSched frmEdit = new frmEditSched();
             frmEdit.Show();
@@ -175,8 +186,63 @@ namespace c__project_proposal
                     }
                 }
 
-                // Clear the listbox
-                listBoxRecentDates.Items.Clear();
+                
+            }
+        }
+
+        private void daycontainer_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            DisplayCalendar();
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchQuery = txtSearch.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                MessageBox.Show("Please enter a search term.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                string sql = "SELECT name, date, time, appointmenttype " +
+                             "FROM appointment " +
+                             "WHERE LOWER(name) LIKE @searchQuery " +
+                             "   OR LOWER(appointmenttype) LIKE @searchQuery";
+
+                try
+                {
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@searchQuery", $"%{searchQuery.ToLower()}%");
+
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+
+                    conn.Open();
+                    adapter.Fill(dt);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        // Pass results to the new form and display it
+                        frmSearchResults resultsForm = new frmSearchResults(dt);
+                        resultsForm.ShowDialog(); // Show as a dialog box
+                    }
+                    else
+                    {
+                        MessageBox.Show("No results found for the search query.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show($"An error occurred: {ex.Message}\\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -214,31 +280,75 @@ namespace c__project_proposal
                 daycontainer.Controls.Add(ucdays); 
             }
         }
-        private void LoadRecentDates() //for listBox
+        private void LoadSchedPanel()
         {
-            listBoxRecentDates.Items.Clear(); // Clear previous items
-            string connString = "server=localhost;user id=root;pwd=admin;database=appointment";
+            string query = "SELECT date, name, appointmenttype FROM appointment WHERE date >= CURDATE() ORDER BY date ASC  "; // Get all future appointments
 
-            using (MySqlConnection conn = new MySqlConnection(connString))
+            try
             {
-                conn.Open();
-                string query = "SELECT date, name, appointmenttype FROM appointment WHERE date >= CURDATE() ORDER BY date ASC";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = new MySqlConnection(connString))
                 {
-                    while (reader.Read())
+                    conn.Open();
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        string date = Convert.ToDateTime(reader["date"]).ToString("yyyy-MM-dd");
-                        string name = reader["name"].ToString();
-                        string appointmentType = reader["appointmenttype"].ToString(); 
-                        listBoxRecentDates.Items.Add($"{appointmentType}  ");
-                        listBoxRecentDates.Items.Add($"{date} - {name}");
-                        listBoxRecentDates.Items.Add(""); 
+                        flowLayoutPanel1.Controls.Clear(); // Clear existing controls
+
+                        while (reader.Read())
+                        {
+                            // Create and configure a card panel for each appointment
+                            Panel card = new Panel
+                            {
+                                Size = new Size(150, 96),
+                                BackColor = Color.White,
+                                Padding = new Padding(10),
+                                Margin = new Padding(5)
+
+                            };
+
+                            // Create and configure Title Label
+                            Label titleLabel = new Label
+                            {
+                                Text = reader["name"].ToString(),
+                                Font = new Font("Century Gothic", 12, FontStyle.Bold),
+                                ForeColor = Color.Black,
+                                Dock = DockStyle.Top
+                            };
+
+                            // Create and configure Date Label
+                            Label dateLabel = new Label
+                            {
+                                Text = DateTime.Parse(reader["date"].ToString()).ToString("MMM dd, yyyy"),
+                                Font = new Font("Century Gothic", 10),
+                                Dock = DockStyle.Top
+                            };
+
+                            // Create and configure Appointment Type Label
+                            Label typeLabel = new Label
+                            {
+                                Text = $"Type: {reader["appointmenttype"]}",
+                                Font = new Font("Century Gothic", 8),
+                                Dock = DockStyle.Top
+                            };
+
+                            // Add labels to the panel
+                            card.Controls.Add(typeLabel);
+                            card.Controls.Add(dateLabel);
+                            card.Controls.Add(titleLabel);
+
+                            // Add the card panel to FlowLayoutPanel
+                            flowLayoutPanel1.Controls.Add(card);
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading appointments: {ex.Message}");
+            }
         }
+
 
 
     }

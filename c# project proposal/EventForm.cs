@@ -65,7 +65,6 @@ namespace c__project_proposal
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // Validate inputs first
             if (string.IsNullOrWhiteSpace(txtName.Text) ||
                 string.IsNullOrWhiteSpace(txtDate.Text) ||
                 string.IsNullOrWhiteSpace(cbHour.Text) ||
@@ -78,53 +77,79 @@ namespace c__project_proposal
             }
 
             // Extract hour and time period (AM/PM)
-            int hour = int.Parse(cbHour.Text);
             string timePeriod = cbTimePeriod.Text;
+            int hour = int.Parse(cbHour.Text);
+            int minute = int.Parse(cbMinute.Text);
+
+            Console.WriteLine($"Time: {hour}:{minute} {timePeriod}");
 
             // Check if the selected time is within the allowed range: 8 AM to 11:59 AM or 12 PM to 5 PM
-            //bool isValidTime = (timePeriod == "AM" && hour >= 8 && hour <= 11) ||
-            //       (timePeriod == "PM" && hour >= 12 && hour <= 5);
+            bool isValidTime =
+              (timePeriod == "AM" && hour >= 8 && hour <= 11) ||
+              (timePeriod == "PM" && hour >= 12 && hour <= 5);
 
-            //if (!isValidTime)
-            //{
-            //    MessageBox.Show("Appointments can only be scheduled between 8:00 AM - 11:59 AM and 12:00 PM - 5:00 PM.");
-            //    return;
-            //}
-
-
-            MySqlConnection conn = new MySqlConnection(connString);
-            string sql = "INSERT INTO appointment(name, date, time, appointmenttype) VALUES (?, ?, ?, ?)";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-
-            try
+            if (!isValidTime)
             {
-                // Prepare parameters
-                cmd.Parameters.AddWithValue("name", txtName.Text.Trim());
-                cmd.Parameters.AddWithValue("date", txtDate.Text.Trim());
-                string schedTime = $"{cbHour.Text}:{cbMinute.Text} {cbTimePeriod.Text}";
-                cmd.Parameters.AddWithValue("time", schedTime);
-                cmd.Parameters.AddWithValue("appointmenttype", cbAppointment.SelectedItem.ToString());
-
-                // Open connection and execute
-                conn.Open();
-                cmd.ExecuteNonQuery();
-
-                MessageBox.Show("Saved successfully!");
-                this.DialogResult = DialogResult.OK; // Notify the calling form
-                Close(); // Close the form after successful save
+                MessageBox.Show("Appointments can only be scheduled between 8:00 AM - 11:59 AM and 12:00 PM - 5:00 PM.");
+                return; 
             }
-            catch (MySqlException ex)
+            else
             {
-                // Show the error message once and prevent infinite looping
-                MessageBox.Show($"An error occurred: {ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                MySqlConnection conn = new MySqlConnection(connString);
+                string checkSql = "SELECT COUNT(*) FROM appointment WHERE LOWER(name) = LOWER(?) AND date = ? AND time = ?"; // ignore case
+                string insertSql = "INSERT INTO appointment(name, date, time, appointmenttype) VALUES (?, ?, ?, ?)";
+
+                try
+                {
+                    conn.Open();
+
+                    // checkCmd - to check for duplicate entries
+                    MySqlCommand checkCmd = new MySqlCommand(checkSql, conn);
+                    checkCmd.Parameters.AddWithValue("name", txtName.Text.Trim());
+                    checkCmd.Parameters.AddWithValue("date", txtDate.Text.Trim());
+                    string schedTime = $"{cbHour.Text}:{cbMinute.Text} {cbTimePeriod.Text}";
+                    checkCmd.Parameters.AddWithValue("time", schedTime);
+
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (count > 0)
+                    {
+                        MessageBox.Show("This schedule already exists. Please choose a different time or date.", "Duplicate Entry", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    MySqlCommand insertCmd = new MySqlCommand(insertSql, conn);
+                    insertCmd.Parameters.AddWithValue("name", txtName.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("date", txtDate.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("time", schedTime);
+                    insertCmd.Parameters.AddWithValue("appointmenttype", cbAppointment.SelectedItem.ToString());
+
+                    insertCmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Saved successfully!");
+                    this.DialogResult = DialogResult.OK; // Notify the calling form
+                    insertCmd.Dispose();
+                    Close();
+                    Calendar mainForm = new Calendar();
+                    mainForm.DisplayCalendar(); 
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show($"An error occurred: {ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (conn.State == System.Data.ConnectionState.Open)
+                        conn.Close(); ;
+                    
+                }
             }
-            finally
-            {
-                // Dispose resources and close connection
-                cmd.Dispose();
-                if (conn.State == System.Data.ConnectionState.Open)
-                    conn.Close();
-            }
+        }
+
+        private void cbHour_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
