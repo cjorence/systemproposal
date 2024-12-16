@@ -29,36 +29,36 @@ namespace c__project_proposal
             cbTimePeriod.Items.AddRange(timePeriods);
 
             string[] typeOfAppointment = {
-                "General check-up",
-                "Physical examination (annual physical)",
-                "Pediatric consultation",
-                "Immunization/vaccination",
-                "Prenatal check-up",
-                "Postnatal check-up",
-                "Blood pressure monitoring",
-                "Diabetes management consultation",
-                "Cholesterol check-up",
-                "Weight management consultation",
-                "Allergy testing or consultation",
-                "Eye examination",
-                "Ear, nose, and throat (ENT) consultation",
-                "Dental check-up",
-                "Skin consultation (dermatology)",
-                "Cardiologist consultation (heart health)",
-                "Gastroenterology consultation (digestive health)",
-                "Orthopedic consultation (bones and joints)",
-                "Physiotherapy session",
-                "Mental health counseling (psychologist/psychiatrist)",
-                "Gynecological consultation (e.g., Pap smear)",
-                "Family planning consultation",
-                "Blood work or laboratory tests",
-                "Ultrasound or imaging appointment",
-                "Vaccine booster shots",
-                "Follow-up appointment for chronic conditions",
-                "Flu or cold treatment",
-                "COVID-19 testing or follow-up",
-                "Minor wound care or dressing change",
-                "Prescription refill or medication review"
+                "General Check-Up",
+                "Physical Examination",
+                "Pediatric Check-Up",
+                "Prenatal Visit",
+                "Postnatal Check-Up",
+                "Immunization Appointment",
+                "Dental Cleaning",
+                "Eye Examination",
+                "Hearing Test",
+                "Blood Test",
+                "Urine Test",
+                "X-Ray",
+                "MRI Scan",
+                "CT Scan",
+                "Ultrasound",
+                "Mammogram",
+                "Pap Smear",
+                "Dermatology Consultation",
+                "Cardiology Consultation",
+                "Orthopedic Consultation",
+                "Psychiatric Evaluation",
+                "Therapy Session (Mental Health)",
+                "Nutrition Counseling",
+                "Physical Therapy Session",
+                "Chiropractic Adjustment",
+                "Allergy Testing",
+                "Vaccination (e.g., Flu Shot, COVID-19)",
+                "Diabetes Management Appointment",
+                "Cancer Screening",
+                "Follow-Up Appointment"
             };
             cbAppointment.Items.AddRange(typeOfAppointment);
         }
@@ -85,8 +85,8 @@ namespace c__project_proposal
 
             // Check if the selected time is within the allowed range: 8 AM to 11:59 AM or 12 PM to 5 PM
             bool isValidTime =
-              (timePeriod == "AM" && hour >= 8 && hour <= 11) ||
-              (timePeriod == "PM" && hour >= 12 && hour <= 5);
+            (timePeriod == "AM" && hour >= 8 && hour <= 11) ||  // 8:00 AM to 11:59 AM
+            (timePeriod == "PM" && (hour == 12 || (hour >= 1 && hour <= 5))); // 12:00 PM to 5:59 PM
 
             if (!isValidTime)
             {

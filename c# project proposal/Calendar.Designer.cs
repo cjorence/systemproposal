@@ -43,14 +43,14 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.btnDeleteSched = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.buttonEditSched = new System.Windows.Forms.Button();
             this.buttonRstSched = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -176,7 +176,6 @@
             this.daycontainer.Name = "daycontainer";
             this.daycontainer.Size = new System.Drawing.Size(674, 302);
             this.daycontainer.TabIndex = 10;
-            this.daycontainer.Paint += new System.Windows.Forms.PaintEventHandler(this.daycontainer_Paint);
             // 
             // lblDate
             // 
@@ -207,7 +206,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(728, 437);
             this.panel1.TabIndex = 12;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // flowLayoutPanel1
             // 
@@ -233,35 +231,6 @@
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "  ";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft YaHei UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(937, 78);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(60, 19);
-            this.label10.TabIndex = 28;
-            this.label10.Text = "To do: ";
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(941, 17);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(161, 21);
-            this.txtSearch.TabIndex = 30;
-            this.txtSearch.Text = "Search";
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Image = global::c__project_proposal.Properties.Resources.searchmagnifierinterfacesymbol1_79893__1_;
-            this.btnSearch.Location = new System.Drawing.Point(1094, 15);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(28, 23);
-            this.btnSearch.TabIndex = 32;
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // btnDeleteSched
             // 
@@ -305,6 +274,7 @@
             this.pictureBox2.Size = new System.Drawing.Size(151, 145);
             this.pictureBox2.TabIndex = 24;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // buttonEditSched
             // 
@@ -340,6 +310,35 @@
             this.buttonRstSched.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.buttonRstSched.UseVisualStyleBackColor = false;
             this.buttonRstSched.Click += new System.EventHandler(this.buttonRstSched_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft YaHei UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(937, 78);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(96, 19);
+            this.label10.TabIndex = 28;
+            this.label10.Text = "Upcoming: ";
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(941, 17);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(161, 21);
+            this.txtSearch.TabIndex = 30;
+            this.txtSearch.Text = "Search";
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Image = global::c__project_proposal.Properties.Resources.searchmagnifierinterfacesymbol1_79893__1_;
+            this.btnSearch.Location = new System.Drawing.Point(1094, 15);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(28, 23);
+            this.btnSearch.TabIndex = 32;
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // Calendar
             // 

@@ -16,14 +16,12 @@ namespace c__project_proposal
 {
     public partial class frmEditSched : Form
     {
-        
         String connString = "server=localhost;user id=root;pwd=admin;database=appointment";
-
+       
         public frmEditSched()
         {
             InitializeComponent();
             this.FormClosing += new FormClosingEventHandler(frmEditSched_FormClosing);
-
         }
 
         private void dataGridViewAllSched_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -55,7 +53,7 @@ namespace c__project_proposal
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable);
 
-                        DataTable formattedTable = dataTable.DefaultView.ToTable(false, "Name", "Date", "Time", "Appointment type");
+                        DataTable formattedTable = dataTable.DefaultView.ToTable(false, "Name", "Date", "Time", "AppointmentType");
                         // Bind to DataGridView
                         dataGridViewAllSched.DataSource = formattedTable;
                     }
@@ -81,24 +79,37 @@ namespace c__project_proposal
                 cbTimePeriod.Items.Add(time[i]);
             }
 
-            string[] typeOfAppointment =
-            {
-                "Routine or Preventive Appointment",
-                "Annual Physical Exam",
-                "Vaccination Appointment",
-                "Specialist Appointment",
-                "Follow-Up Appointment",
-                "Acute Care Appointment",
-                "Diagnostic Appointment",
-                "Therapy Appointment",
-                "Dental Appointment",
-                "Pediatric Appointment",
-                "Telemedicine Appointment",
-                "Emergency Car",
-                "Surgical Consultation",
-                "Rehabilitation Appointment",
-                "Fertility and Reproductive Health Appointment",
-                "Vision and Eye Care Appointment"
+            string[] typeOfAppointment = {
+                "General Check-Up",
+                "Physical Examination",
+                "Pediatric Check-Up",
+                "Prenatal Visit",
+                "Postnatal Check-Up",
+                "Immunization Appointment",
+                "Dental Cleaning",
+                "Eye Examination",
+                "Hearing Test",
+                "Blood Test",
+                "Urine Test",
+                "X-Ray",
+                "MRI Scan",
+                "CT Scan",
+                "Ultrasound",
+                "Mammogram",
+                "Pap Smear",
+                "Dermatology Consultation",
+                "Cardiology Consultation",
+                "Orthopedic Consultation",
+                "Psychiatric Evaluation",
+                "Therapy Session (Mental Health)",
+                "Nutrition Counseling",
+                "Physical Therapy Session",
+                "Chiropractic Adjustment",
+                "Allergy Testing",
+                "Vaccination (e.g., Flu Shot, COVID-19)",
+                "Diabetes Management Appointment",
+                "Cancer Screening",
+                "Follow-Up Appointment"
             };
             for (int app = 0; app < typeOfAppointment.Length; app++)
             {
@@ -112,6 +123,7 @@ namespace c__project_proposal
         private void btnDelete_Click(object sender, EventArgs e)
         {
             string nameToDelete = textBoxName.Text; // Get the name from the textbox
+
 
             if (string.IsNullOrEmpty(nameToDelete))
             {
@@ -244,8 +256,10 @@ namespace c__project_proposal
         {
             if (MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                Calendar dashboard = new Calendar();
-                dashboard.DisplayCalendar();
+                if (Calendar.Instance != null)
+                {
+                    Calendar.Instance.DisplayCalendar();
+                }
             }
             else
             {

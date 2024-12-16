@@ -51,9 +51,9 @@
             // dataGridViewAllSched
             // 
             this.dataGridViewAllSched.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewAllSched.Location = new System.Drawing.Point(403, 2);
+            this.dataGridViewAllSched.Location = new System.Drawing.Point(373, 2);
             this.dataGridViewAllSched.Name = "dataGridViewAllSched";
-            this.dataGridViewAllSched.Size = new System.Drawing.Size(416, 326);
+            this.dataGridViewAllSched.Size = new System.Drawing.Size(386, 326);
             this.dataGridViewAllSched.TabIndex = 6;
             this.dataGridViewAllSched.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewAllSched_CellContentClick);
             // 
@@ -71,7 +71,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 89);
+            this.label4.Location = new System.Drawing.Point(12, 89);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 4;
@@ -80,7 +80,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 129);
+            this.label5.Location = new System.Drawing.Point(12, 129);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(30, 13);
             this.label5.TabIndex = 7;
@@ -89,7 +89,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(17, 165);
+            this.label6.Location = new System.Drawing.Point(9, 165);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(30, 13);
             this.label6.TabIndex = 8;
@@ -98,7 +98,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(17, 195);
+            this.label7.Location = new System.Drawing.Point(9, 195);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(66, 13);
             this.label7.TabIndex = 9;
@@ -106,14 +106,14 @@
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(99, 86);
+            this.textBoxName.Location = new System.Drawing.Point(81, 86);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(272, 20);
             this.textBoxName.TabIndex = 10;
             // 
             // dateTimePickerDate
             // 
-            this.dateTimePickerDate.Location = new System.Drawing.Point(99, 122);
+            this.dateTimePickerDate.Location = new System.Drawing.Point(81, 122);
             this.dateTimePickerDate.Name = "dateTimePickerDate";
             this.dateTimePickerDate.Size = new System.Drawing.Size(272, 20);
             this.dateTimePickerDate.TabIndex = 11;
@@ -121,7 +121,7 @@
             // cbHour
             // 
             this.cbHour.FormattingEnabled = true;
-            this.cbHour.Location = new System.Drawing.Point(99, 157);
+            this.cbHour.Location = new System.Drawing.Point(81, 157);
             this.cbHour.Name = "cbHour";
             this.cbHour.Size = new System.Drawing.Size(93, 21);
             this.cbHour.TabIndex = 12;
@@ -130,7 +130,7 @@
             // cbMinute
             // 
             this.cbMinute.FormattingEnabled = true;
-            this.cbMinute.Location = new System.Drawing.Point(213, 157);
+            this.cbMinute.Location = new System.Drawing.Point(195, 157);
             this.cbMinute.Name = "cbMinute";
             this.cbMinute.Size = new System.Drawing.Size(78, 21);
             this.cbMinute.TabIndex = 13;
@@ -139,7 +139,7 @@
             // cbTimePeriod
             // 
             this.cbTimePeriod.FormattingEnabled = true;
-            this.cbTimePeriod.Location = new System.Drawing.Point(302, 157);
+            this.cbTimePeriod.Location = new System.Drawing.Point(284, 157);
             this.cbTimePeriod.Name = "cbTimePeriod";
             this.cbTimePeriod.Size = new System.Drawing.Size(69, 21);
             this.cbTimePeriod.TabIndex = 14;
@@ -148,7 +148,7 @@
             // comboBoxAppointmentType
             // 
             this.comboBoxAppointmentType.FormattingEnabled = true;
-            this.comboBoxAppointmentType.Location = new System.Drawing.Point(99, 195);
+            this.comboBoxAppointmentType.Location = new System.Drawing.Point(81, 192);
             this.comboBoxAppointmentType.Name = "comboBoxAppointmentType";
             this.comboBoxAppointmentType.Size = new System.Drawing.Size(272, 21);
             this.comboBoxAppointmentType.TabIndex = 15;
@@ -184,7 +184,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(1, -21);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(403, 73);
+            this.groupBox1.Size = new System.Drawing.Size(373, 73);
             this.groupBox1.TabIndex = 20;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
@@ -195,7 +195,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(823, 330);
+            this.ClientSize = new System.Drawing.Size(763, 330);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);

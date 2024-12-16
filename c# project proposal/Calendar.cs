@@ -14,12 +14,14 @@ namespace c__project_proposal
 {
     public partial class Calendar : Form
     {
+        public static Calendar Instance { get; private set; } // Static property
         int month, year;
         public static int static_month, static_year;
         string connString = "server=localhost;user id=root;pwd=admin;database=appointment";
         public Calendar()
         {
             InitializeComponent();
+            Instance = this; // Set the static instance when Calendar is created
         }
 
         private void Calendar_Load(object sender, EventArgs e)
@@ -27,8 +29,6 @@ namespace c__project_proposal
             displayDays();
             LoadSchedPanel(); 
         }
-
-
         private void displayDays()
         {
             DateTime now = DateTime.Now;
@@ -59,13 +59,6 @@ namespace c__project_proposal
                 daycontainer.Controls.Add(ucdays);
             }
         }
-
-        public void DisplayCalendar()
-        {
-            displayDays(); // Call the private method internally
-            LoadSchedPanel();
-        }
-
 
         private void buttonEditSched_Click(object sender, EventArgs e)
         {
@@ -118,16 +111,7 @@ namespace c__project_proposal
                 daycontainer.Controls.Add(ucdays);
             }
         }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        
 
         private void buttonRstSched_Click(object sender, EventArgs e)
         {
@@ -175,7 +159,6 @@ namespace c__project_proposal
                     }
                     catch (Exception ex)
                     {
-                        // Notify user of any errors
                         MessageBox.Show(
                             "An error occurred while deleting records: " + ex.Message,
                             "Error",
@@ -185,19 +168,28 @@ namespace c__project_proposal
                         return;
                     }
                 }
-
                 
             }
         }
-
-        private void daycontainer_Paint(object sender, PaintEventArgs e)
+        public void DisplayCalendar()
         {
+            try
+            {
+                LoadSchedPanel();
 
+                daycontainer.Controls.Clear();
+
+                displayDays();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while refreshing: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            DisplayCalendar();
+            DisplayCalendar(); 
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -246,6 +238,11 @@ namespace c__project_proposal
             }
         }
 
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void btnNext_Click_1(object sender, EventArgs e)
         {
             daycontainer.Controls.Clear();
@@ -282,7 +279,7 @@ namespace c__project_proposal
         }
         private void LoadSchedPanel()
         {
-            string query = "SELECT date, name, appointmenttype FROM appointment WHERE date >= CURDATE() ORDER BY date ASC  "; // Get all future appointments
+            string query = "SELECT date, time, name, appointmenttype FROM appointment WHERE date >= CURDATE() ORDER BY date ASC  "; // Get all future appointments
 
             try
             {
@@ -293,21 +290,19 @@ namespace c__project_proposal
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        flowLayoutPanel1.Controls.Clear(); // Clear existing controls
+                        flowLayoutPanel1.Controls.Clear(); 
 
                         while (reader.Read())
                         {
                             // Create and configure a card panel for each appointment
                             Panel card = new Panel
                             {
-                                Size = new Size(150, 96),
+                                Size = new Size(150, 120), //150, 96 then
                                 BackColor = Color.White,
                                 Padding = new Padding(10),
                                 Margin = new Padding(5)
 
                             };
-
-                            // Create and configure Title Label
                             Label titleLabel = new Label
                             {
                                 Text = reader["name"].ToString(),
@@ -315,16 +310,18 @@ namespace c__project_proposal
                                 ForeColor = Color.Black,
                                 Dock = DockStyle.Top
                             };
-
-                            // Create and configure Date Label
                             Label dateLabel = new Label
                             {
                                 Text = DateTime.Parse(reader["date"].ToString()).ToString("MMM dd, yyyy"),
                                 Font = new Font("Century Gothic", 10),
                                 Dock = DockStyle.Top
                             };
-
-                            // Create and configure Appointment Type Label
+                            Label timeLabel = new Label
+                            {
+                                Text = DateTime.Parse(reader["time"].ToString()).ToString("hh:mm tt"), 
+                                Font = new Font("Century Gothic", 10),
+                                Dock = DockStyle.Top
+                            };
                             Label typeLabel = new Label
                             {
                                 Text = $"Type: {reader["appointmenttype"]}",
@@ -332,12 +329,11 @@ namespace c__project_proposal
                                 Dock = DockStyle.Top
                             };
 
-                            // Add labels to the panel
                             card.Controls.Add(typeLabel);
                             card.Controls.Add(dateLabel);
+                            card.Controls.Add(timeLabel);
                             card.Controls.Add(titleLabel);
 
-                            // Add the card panel to FlowLayoutPanel
                             flowLayoutPanel1.Controls.Add(card);
                         }
                     }
