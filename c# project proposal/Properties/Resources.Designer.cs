@@ -233,6 +233,16 @@ namespace c__project_proposal.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap profile_icon_176363 {
+            get {
+                object obj = ResourceManager.GetObject("profile_icon_176363", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap refresh_page_35 {
             get {
                 object obj = ResourceManager.GetObject("refresh-page-35", resourceCulture);
@@ -286,6 +296,36 @@ namespace c__project_proposal.Properties {
         internal static System.Drawing.Bitmap searchmagnifierinterfacesymbol1_79893__1_ {
             get {
                 object obj = ResourceManager.GetObject("searchmagnifierinterfacesymbol1_79893 (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap userblue {
+            get {
+                object obj = ResourceManager.GetObject("userblue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap userblue_128 {
+            get {
+                object obj = ResourceManager.GetObject("userblue 128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap userblue_76 {
+            get {
+                object obj = ResourceManager.GetObject("userblue 76", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

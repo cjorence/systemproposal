@@ -282,5 +282,17 @@
   <ItemGroup>
     <None Include="Resources\searchmagnifierinterfacesymbol1_79893 %281%29.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\profile_icon_176363.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\userblue.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\userblue 76.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\userblue 128.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

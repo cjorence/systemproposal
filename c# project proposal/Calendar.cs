@@ -243,6 +243,11 @@ namespace c__project_proposal
 
         }
 
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void btnNext_Click_1(object sender, EventArgs e)
         {
             daycontainer.Controls.Clear();
@@ -303,7 +308,7 @@ namespace c__project_proposal
                                 Margin = new Padding(5)
 
                             };
-                            Label titleLabel = new Label
+                            Label nameLabel = new Label
                             {
                                 Text = reader["name"].ToString(),
                                 Font = new Font("Century Gothic", 12, FontStyle.Bold),
@@ -319,7 +324,7 @@ namespace c__project_proposal
                             Label timeLabel = new Label
                             {
                                 Text = DateTime.Parse(reader["time"].ToString()).ToString("hh:mm tt"), 
-                                Font = new Font("Century Gothic", 10),
+                                Font = new Font("Century Gothic", 8),
                                 Dock = DockStyle.Top
                             };
                             Label typeLabel = new Label
@@ -330,10 +335,9 @@ namespace c__project_proposal
                             };
 
                             card.Controls.Add(typeLabel);
-                            card.Controls.Add(dateLabel);
                             card.Controls.Add(timeLabel);
-                            card.Controls.Add(titleLabel);
-
+                            card.Controls.Add(dateLabel);
+                            card.Controls.Add(nameLabel);
                             flowLayoutPanel1.Controls.Add(card);
                         }
                     }

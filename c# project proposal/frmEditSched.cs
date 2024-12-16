@@ -66,18 +66,14 @@ namespace c__project_proposal
 
             for (int hr = 1; hr <= 12; hr++)
             {
-                cbHour.Items.Add(hr);
+                cbHour.Items.Add(hr.ToString("D2")); //2 digits
             }
-            for (int min = 1; min <= 59; min++)
+            for (int min = 0; min < 60; min++) // Fixed minutes range to include 0
             {
-                cbMinute.Items.Add(min);
+                cbMinute.Items.Add(min.ToString("D2"));
             }
-
-            string[] time = { "AM", "PM" };
-            for (int i = 0; i < time.Length; i++)
-            {
-                cbTimePeriod.Items.Add(time[i]);
-            }
+            string[] timePeriods = { "AM", "PM" };
+            cbTimePeriod.Items.AddRange(timePeriods);
 
             string[] typeOfAppointment = {
                 "General Check-Up",
@@ -116,26 +112,21 @@ namespace c__project_proposal
                 comboBoxAppointmentType.Items.Add(typeOfAppointment[app]);
             }
         }
-
-
-
-
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            string nameToDelete = textBoxName.Text; // Get the name from the textbox
-
-
-            if (string.IsNullOrEmpty(nameToDelete))
+            if (dataGridViewAllSched.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please select a record to delete.");
+                MessageBox.Show("Please select a record to delete. \n Click first the name, then click the entire row to delete");
                 return;
             }
 
-            // Confirmation before deleting
+            // Get the name of the selected row
+            DataGridViewRow selectedRow = dataGridViewAllSched.SelectedRows[0];
+            string nameToDelete = selectedRow.Cells["name"].Value.ToString();  
+
             DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the record for {nameToDelete}?", "Confirm Delete", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                // SQL DELETE query to remove the record from the database
                 string deleteQuery = "DELETE FROM appointment WHERE name = @name";
 
                 try
@@ -146,10 +137,8 @@ namespace c__project_proposal
 
                         using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
                         {
-                            // Use parameters to avoid SQL injection
-                            command.Parameters.AddWithValue("@name", nameToDelete);
+                            command.Parameters.AddWithValue("@name", nameToDelete);  // Use parameter to avoid SQL injection
 
-                            // Execute the DELETE command
                             int rowsAffected = command.ExecuteNonQuery();
 
                             if (rowsAffected > 0)
@@ -163,33 +152,28 @@ namespace c__project_proposal
                         }
                     }
 
-                    // Reload the data in the DataGridView
-                    frmEditSched_Load(sender, e); // This reloads the DataGridView after deletion
-                    
-
+                    frmEditSched_Load(sender, e); // Refresh the DataGridView after deletion
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error: " + ex.Message);
                 }
             }
-
         }
+
+
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             if (dataGridViewAllSched.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please select a record to update.");
+                MessageBox.Show("Please select a record to update. \n Click first the name, then click the entire row. After that, fill in the details you want to change. ");
                 return;
             }
 
-            // Get the selected row from the DataGridView
             DataGridViewRow selectedRow = dataGridViewAllSched.SelectedRows[0];
 
-
-
-            // Retrieve the values from the DataGridView row
+            // Get current values from the selected row
             string currentName = selectedRow.Cells["name"].Value.ToString();
             string updatedName = textBoxName.Text;
             string updatedDate = dateTimePickerDate.Value.ToString("yyyy-MM-dd");
@@ -201,7 +185,22 @@ namespace c__project_proposal
                 MessageBox.Show("Please fill out all fields before updating.");
                 return;
             }
+            string timePeriod = cbTimePeriod.Text;
+            int hour = int.Parse(cbHour.Text);
+            int minute = int.Parse(cbMinute.Text);
 
+            Console.WriteLine($"Time: {hour}:{minute} {timePeriod}");
+
+            // Check if the selected time is within the allowed range: 8 AM to 11:59 AM or 12 PM to 5 PM
+            bool isValidTime =
+            (timePeriod == "AM" && hour >= 8 && hour <= 11) ||  // 8:00 AM to 11:59 AM
+            (timePeriod == "PM" && (hour == 12 || (hour >= 1 && hour <= 5))); // 12:00 PM to 5:59 PM
+
+            if (!isValidTime)
+            {
+                MessageBox.Show("Appointments can only be scheduled between 8:00 AM - 11:59 AM and 12:00 PM - 5:00 PM.");
+                return;
+            }
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to update this record?", "Confirm Update", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
@@ -215,28 +214,18 @@ namespace c__project_proposal
 
                         using (MySqlCommand command = new MySqlCommand(updateQuery, connection))
                         {
-                       
                             command.Parameters.AddWithValue("@updatedName", updatedName);
                             command.Parameters.AddWithValue("@updatedDate", updatedDate);
                             command.Parameters.AddWithValue("@updatedTime", updatedTime);
                             command.Parameters.AddWithValue("@updatedAppointmentType", updatedAppointmentType);
                             command.Parameters.AddWithValue("@currentName", currentName);
 
-                            // Execute the update command and check how many rows were affected
                             int rowsAffected = command.ExecuteNonQuery();
+
                             if (rowsAffected > 0)
                             {
                                 MessageBox.Show("Record updated successfully.");
-
                                 frmEditSched_Load(sender, e); // Refresh the DataGridView and reset the form fields
-
-                                // Optionally, clear the input fields
-                                textBoxName.Clear();
-                                dateTimePickerDate.Value = DateTime.Now;
-                                cbHour.SelectedIndex = -1;
-                                cbMinute.SelectedIndex = -1;
-                                cbTimePeriod.SelectedIndex = -1;
-                                comboBoxAppointmentType.SelectedIndex = -1;
                             }
                             else
                             {
@@ -250,8 +239,8 @@ namespace c__project_proposal
                     MessageBox.Show("Error: " + ex.Message);
                 }
             }
-
         }
+
         private void frmEditSched_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -264,6 +253,49 @@ namespace c__project_proposal
             else
             {
                 e.Cancel = true; // Prevent form closure
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchQuery = txtSearch.Text.Trim();  // Get the search term
+
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                MessageBox.Show("Please enter a name to search.");
+                return;
+            }
+
+            // SQL query to filter appointments by name (you can add more filters if needed)
+            string query = "SELECT name, date, time, appointmenttype FROM appointment WHERE name LIKE @searchQuery ORDER BY date ASC";
+
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        // Use parameters to avoid SQL injection
+                        command.Parameters.AddWithValue("@searchQuery", "%" + searchQuery + "%");
+
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
+                        {
+                            DataTable dataTable = new DataTable();
+                            adapter.Fill(dataTable);
+
+                            DataTable formattedTable = dataTable.DefaultView.ToTable(false, "Name", "Date", "Time", "AppointmentType");
+
+                            // Bind the filtered data to the DataGridView
+                            dataGridViewAllSched.DataSource = formattedTable;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
     }

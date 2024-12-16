@@ -41,7 +41,6 @@
             this.cbAppointment = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -217,6 +216,5 @@
         private System.Windows.Forms.ComboBox cbAppointment;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
