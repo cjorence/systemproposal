@@ -121,7 +121,7 @@
             this.cbHour.Size = new System.Drawing.Size(67, 21);
             this.cbHour.TabIndex = 9;
             this.cbHour.Text = "-HOUR-";
-            this.cbHour.SelectedIndexChanged += new System.EventHandler(this.cbHour_SelectedIndexChanged);
+//            this.cbHour.SelectedIndexChanged += new System.EventHandler(this.cbHour_SelectedIndexChanged);
             // 
             // cbMinute
             // 

@@ -204,6 +204,8 @@ namespace c__project_proposal
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to update this record?", "Confirm Update", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
+
+                string checkConflictQuery = "SELECT COUNT(*) FROM appointment WHERE date = @date AND time = @time AND appointmenttype = @appointmentType AND name != @currentName";
                 string updateQuery = "UPDATE appointment SET name = @updatedName, date = @updatedDate, time = @updatedTime, appointmenttype = @updatedAppointmentType WHERE name = @currentName";
 
                 try
@@ -212,15 +214,33 @@ namespace c__project_proposal
                     {
                         connection.Open();
 
-                        using (MySqlCommand command = new MySqlCommand(updateQuery, connection))
+                        // Check for conflicts
+                        using (MySqlCommand checkCmd = new MySqlCommand(checkConflictQuery, connection))
                         {
-                            command.Parameters.AddWithValue("@updatedName", updatedName);
-                            command.Parameters.AddWithValue("@updatedDate", updatedDate);
-                            command.Parameters.AddWithValue("@updatedTime", updatedTime);
-                            command.Parameters.AddWithValue("@updatedAppointmentType", updatedAppointmentType);
-                            command.Parameters.AddWithValue("@currentName", currentName);
+                            checkCmd.Parameters.AddWithValue("@date", updatedDate);
+                            checkCmd.Parameters.AddWithValue("@time", updatedTime);
+                            checkCmd.Parameters.AddWithValue("@appointmentType", updatedAppointmentType);
+                            checkCmd.Parameters.AddWithValue("@currentName", currentName);
 
-                            int rowsAffected = command.ExecuteNonQuery();
+                            int conflictCount = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                            if (conflictCount > 0)
+                            {
+                                MessageBox.Show("This time slot is already booked for the selected appointment type.", "Schedule Conflict", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+                        }
+
+                        // Proceed with the update if no conflicts
+                        using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
+                        {
+                            updateCmd.Parameters.AddWithValue("@updatedName", updatedName);
+                            updateCmd.Parameters.AddWithValue("@updatedDate", updatedDate);
+                            updateCmd.Parameters.AddWithValue("@updatedTime", updatedTime);
+                            updateCmd.Parameters.AddWithValue("@updatedAppointmentType", updatedAppointmentType);
+                            updateCmd.Parameters.AddWithValue("@currentName", currentName);
+
+                            int rowsAffected = updateCmd.ExecuteNonQuery();
 
                             if (rowsAffected > 0)
                             {

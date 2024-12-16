@@ -97,25 +97,24 @@ namespace c__project_proposal
             {
 
                 MySqlConnection conn = new MySqlConnection(connString);
-                string checkSql = "SELECT COUNT(*) FROM appointment WHERE LOWER(name) = LOWER(?) AND date = ? AND time = ?"; // ignore case
+                string checkSql = "SELECT COUNT(*) FROM appointment WHERE date = ? AND time = ? AND appointmenttype = ? "; // ignore case
                 string insertSql = "INSERT INTO appointment(name, date, time, appointmenttype) VALUES (?, ?, ?, ?)";
 
                 try
                 {
                     conn.Open();
 
-                    // checkCmd - to check for duplicate entries
                     MySqlCommand checkCmd = new MySqlCommand(checkSql, conn);
-                    checkCmd.Parameters.AddWithValue("name", txtName.Text.Trim());
                     checkCmd.Parameters.AddWithValue("date", txtDate.Text.Trim());
                     string schedTime = $"{cbHour.Text}:{cbMinute.Text} {cbTimePeriod.Text}";
                     checkCmd.Parameters.AddWithValue("time", schedTime);
+                    checkCmd.Parameters.AddWithValue("appointmenttype", cbAppointment.SelectedItem.ToString());
 
                     int count = Convert.ToInt32(checkCmd.ExecuteScalar());
 
                     if (count > 0)
                     {
-                        MessageBox.Show("This schedule already exists. Please choose a different time or date.", "Duplicate Entry", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("This schedule already exists. Please choose a different time or date.", "Schedule Conflict", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
@@ -145,11 +144,6 @@ namespace c__project_proposal
                     
                 }
             }
-        }
-
-        private void cbHour_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
